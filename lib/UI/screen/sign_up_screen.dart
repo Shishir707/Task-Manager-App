@@ -2,14 +2,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/UI/widgets/backgroundScreen.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,42 +19,36 @@ class _SignInScreenState extends State<SignInScreen> {
           spacing: 8,
           children: [
             SizedBox(height: 60,),
-            Text('Get Started With',style: TextStyle(
+            Text('Join with US',style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w600
             ),),
             SizedBox(height: 8,),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: 'Email'
-              )
-            ),
-            TextFormField(
-                decoration: InputDecoration(
-                    hintText: 'Passward'
-                )
-            ),
+            TextFormField(decoration: InputDecoration(hintText: 'Email')),
+            TextFormField(decoration: InputDecoration(hintText: 'First name')),
+            TextFormField(decoration: InputDecoration(hintText: 'Last name')),
+            TextFormField(decoration: InputDecoration(hintText: 'Mobile')),
+            TextFormField(decoration: InputDecoration(hintText: 'Passward')),
             SizedBox(height: 8,),
             FilledButton(
-                onPressed: _onTabSignInButton, child: Icon(Icons.arrow_circle_right_outlined)
+                onPressed: _onTabSignUpButton, child: Icon(Icons.arrow_circle_right_outlined)
             ),
             SizedBox(height: 24,),
-            TextButton(onPressed: _onTanForgotPasswardButton, child: Text('Forgot Passward?',)),
             RichText(
               text: TextSpan(
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w600
                 ),
-                text: "Dont have an account? ",
+                text: "Already have an account? ",
                 children: [
                   TextSpan(
                     style: TextStyle(
                       color: Colors.green
                     ),
-                    text: "Sign Up",
+                    text: "Sign In",
                     recognizer: TapGestureRecognizer()
-                      ..onTap = _onTapSignUpButon
+                      ..onTap = _onTapSignInButon
                   )
                 ]
               ),
@@ -66,11 +60,9 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  void _onTabSignInButton (){}
+  void _onTabSignUpButton (){}
 
-  void _onTanForgotPasswardButton () {}
-
-  void _onTapSignUpButon () {
-    Navigator.pushNamed(context, '/sign-up');
+  void _onTapSignInButon () {
+    Navigator.pushNamed(context, '/sign-in');
   }
 }
