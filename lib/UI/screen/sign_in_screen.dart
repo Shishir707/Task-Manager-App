@@ -61,7 +61,9 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  void _onTabSignInButton() {}
+  void _onTabSignInButton() {
+    Navigator.pushReplacementNamed(context, '/main-bottom-nav-screen');
+  }
 
   void _onTanForgotPasswardButton() {
     Navigator.pushNamed(context, '/forgot-email');
