@@ -47,7 +47,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
             ),
             SizedBox(height: 8,),
             FilledButton(
-                onPressed: _onTabSubmitButton, child: Icon(Icons.arrow_circle_right_outlined)
+                onPressed: _onTabSubmitButton, child: Text('Verify')
             ),
             SizedBox(height: 24,),
             RichText(
@@ -76,7 +76,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     );
   }
 
-  void _onTabSubmitButton (){}
+  void _onTabSubmitButton (){
+    Navigator.pushNamed(context, '/reset-passward');
+  }
 
   void _onTapSignInButon () {
     Navigator.pushNamedAndRemoveUntil(context, '/sign-in', (predicate)=>false);
