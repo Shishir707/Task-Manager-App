@@ -19,10 +19,9 @@ class _SignInScreenState extends State<SignInScreen> {
           spacing: 8,
           children: [
             SizedBox(height: 60,),
-            Text('Get Started With',style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600
-            ),),
+            Text('Get Started With',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             SizedBox(height: 8,),
             TextFormField(
               decoration: InputDecoration(

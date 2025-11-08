@@ -19,10 +19,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           spacing: 8,
           children: [
             SizedBox(height: 60,),
-            Text('Join with US',style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600
-            ),),
+            Text('Join with US',
+                style: Theme.of(context).textTheme.titleLarge
+            ),
             SizedBox(height: 8,),
             TextFormField(decoration: InputDecoration(hintText: 'Email')),
             TextFormField(decoration: InputDecoration(hintText: 'First name')),
