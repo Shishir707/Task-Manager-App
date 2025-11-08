@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TMappbar extends StatelessWidget implements PreferredSizeWidget{
-  const TMappbar({
-    super.key,
-  });
+class TMappbar extends StatelessWidget implements PreferredSizeWidget {
+  const TMappbar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +14,20 @@ class TMappbar extends StatelessWidget implements PreferredSizeWidget{
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Rahim Hasan',style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.white
-              )),
-              Text('rahim@gmail.com', style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white
-              ))
+              Text(
+                'Mir M Shishir',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyLarge?.copyWith(color: Colors.white),
+              ),
+              Text(
+                'shishir@gmail.com',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
