@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/UI/screen/sign_in_screen.dart';
 import 'package:task_manager/UI/screen/sign_up_screen.dart';
+import 'UI/screen/pin_verification_screen.dart';
+import 'UI/screen/verify_otp_screen.dart';
 import 'UI/screen/splash_screen.dart';
 
 class TaskManagerApp extends StatelessWidget {
@@ -49,14 +51,17 @@ class TaskManagerApp extends StatelessWidget {
         ),
 
         textTheme: TextTheme(
-            titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)
+            titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+          labelMedium: TextStyle(fontSize: 15,color: Colors.grey, fontWeight: FontWeight.w400)
         ),
 
       ),
       routes: <String , WidgetBuilder>{
         '/': (_) => SplashScreen(),
         '/sign-in':(_) => SignInScreen(),
-        '/sign-up':(_) => SignUpScreen()
+        '/sign-up':(_) => SignUpScreen(),
+        '/forgot-email':(_) => ForgotPasswardEmailScreen(),
+        '/verify-otp' : (_) => VerifyOtpScreen()
       },
       initialRoute: '/',
     );
