@@ -17,53 +17,52 @@ class TaskManagerApp extends StatelessWidget {
         inputDecorationTheme: InputDecorationTheme(
           fillColor: Colors.white,
           filled: true,
-          hintStyle: TextStyle(
-              fontWeight: FontWeight.w400,
-              color: Colors.grey
-          ),
+          hintStyle: TextStyle(fontWeight: FontWeight.w400, color: Colors.grey),
           border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(8)
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8),
           ),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(8)
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8),
           ),
           disabledBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(8)
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8),
           ),
           errorBorder: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(8)
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(8),
           ),
-
         ),
         filledButtonTheme: FilledButtonThemeData(
           style: FilledButton.styleFrom(
-              fixedSize: Size.fromWidth(double.maxFinite),
-              padding: EdgeInsets.symmetric(vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white
+            fixedSize: Size.fromWidth(double.maxFinite),
+            padding: EdgeInsets.symmetric(vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
           ),
         ),
 
         textTheme: TextTheme(
-            titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-          labelMedium: TextStyle(fontSize: 15,color: Colors.grey, fontWeight: FontWeight.w400)
+          titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+          labelMedium: TextStyle(
+            fontSize: 15,
+            color: Colors.grey,
+            fontWeight: FontWeight.w400,
+          ),
         ),
-
       ),
-      routes: <String , WidgetBuilder>{
+      routes: <String, WidgetBuilder>{
         '/': (_) => SplashScreen(),
-        '/sign-in':(_) => SignInScreen(),
-        '/sign-up':(_) => SignUpScreen(),
-        '/forgot-email':(_) => ForgotPasswardEmailScreen(),
-        '/verify-otp' : (_) => VerifyOtpScreen(),
-        '/reset-passward': (_) => ResetPasswardScreen()
+        '/sign-in': (_) => SignInScreen(),
+        '/sign-up': (_) => SignUpScreen(),
+        '/forgot-email': (_) => ForgotPasswardEmailScreen(),
+        '/verify-otp': (_) => VerifyOtpScreen(),
+        '/reset-passward': (_) => ResetPasswardScreen(),
       },
       initialRoute: '/',
     );
