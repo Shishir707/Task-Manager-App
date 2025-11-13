@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/UI/screen/new_task_screen_list.dart';
+import 'package:task_manager/UI/screen/progress_task_list_screen.dart';
 
 import '../widgets/tm_appbar.dart';
 
@@ -15,7 +16,7 @@ class _MainBottomNavHolderScreenState extends State<MainBottomNavHolderScreen> {
   int _selectedIndex = 0;
   final List<Widget> _screens = [
     NewTaskScreenList(),
-    NewTaskScreenList(),
+    ProgressTaskList(),
     NewTaskScreenList(),
     NewTaskScreenList()
   ];
