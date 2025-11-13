@@ -24,7 +24,7 @@ class _MainBottomNavHolderScreenState extends State<MainBottomNavHolderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TMappbar(),
-      body: NewTaskScreenList(),
+      body: _screens[_selectedIndex],
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
         onDestinationSelected: (int index) {

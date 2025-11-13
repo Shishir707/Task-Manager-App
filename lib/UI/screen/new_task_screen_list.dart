@@ -80,7 +80,7 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
 }
 
 class _NewSummaryList extends StatelessWidget {
-  const _NewSummaryList({super.key});
+  const _NewSummaryList();
 
   @override
   Widget build(BuildContext context) {
