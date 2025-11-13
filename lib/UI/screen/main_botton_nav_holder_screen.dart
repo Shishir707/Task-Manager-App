@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../widgets/tm_appbar.dart';
 
-class MainBottonNavHolderScreen extends StatefulWidget {
-  const MainBottonNavHolderScreen({super.key});
+class MainBottomNavHolderScreen extends StatefulWidget {
+  const MainBottomNavHolderScreen({super.key});
 
   @override
-  State<MainBottonNavHolderScreen> createState() =>
-      _MainBottonNavHolderScreenState();
+  State<MainBottomNavHolderScreen> createState() =>
+      _MainBottomNavHolderScreenState();
 }
 
-class _MainBottonNavHolderScreenState extends State<MainBottonNavHolderScreen> {
+class _MainBottomNavHolderScreenState extends State<MainBottomNavHolderScreen> {
   int _selectedIndex = 0;
 
   @override
@@ -19,8 +19,8 @@ class _MainBottonNavHolderScreenState extends State<MainBottonNavHolderScreen> {
       appBar: TMappbar(),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
-        onDestinationSelected: (int Index) {
-          _selectedIndex = Index;
+        onDestinationSelected: (int index) {
+          _selectedIndex = index;
           setState(() {});
         },
         destinations: [
