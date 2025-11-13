@@ -59,6 +59,7 @@ class TaskManagerApp extends StatelessWidget {
           ),
         ),
       ),
+      debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/': (_) => SplashScreen(),
         '/sign-in': (_) => SignInScreen(),
