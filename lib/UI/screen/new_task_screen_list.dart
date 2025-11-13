@@ -21,7 +21,9 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){}, child: Icon(Icons.add),),
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        Navigator.pushNamed(context, '/add-new');
+      }, child: Icon(Icons.add),),
     );
   }
 }

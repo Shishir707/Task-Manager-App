@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/UI/screen/add_task_screen.dart';
 import 'package:task_manager/UI/screen/sign_in_screen.dart';
 import 'package:task_manager/UI/screen/sign_up_screen.dart';
 import 'UI/screen/main_botton_nav_holder_screen.dart';
@@ -65,7 +66,8 @@ class TaskManagerApp extends StatelessWidget {
         '/forgot-email': (_) => ForgotPasswardEmailScreen(),
         '/verify-otp': (_) => VerifyOtpScreen(),
         '/reset-passward': (_) => ResetPasswardScreen(),
-        '/main-bottom-nav-screen': (_) => MainBottomNavHolderScreen()
+        '/main-bottom-nav-screen': (_) => MainBottomNavHolderScreen(),
+        '/add-new' : (_) => AddTaskScreen(),
       },
       initialRoute: '/',
     );
