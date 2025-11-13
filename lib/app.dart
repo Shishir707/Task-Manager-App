@@ -47,6 +47,7 @@ class TaskManagerApp extends StatelessWidget {
             foregroundColor: Colors.white,
           ),
         ),
+        scaffoldBackgroundColor: Colors.green.shade50,
 
         textTheme: TextTheme(
           titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
