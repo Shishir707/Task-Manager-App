@@ -7,6 +7,7 @@ import 'UI/screen/otp_verification_screen.dart';
 import 'UI/screen/forgot_passward_email_screen.dart';
 import 'UI/screen/reset_passward_screen.dart';
 import 'UI/screen/splash_screen.dart';
+import 'UI/screen/update_profile_screen.dart';
 
 class TaskManagerApp extends StatelessWidget {
   const TaskManagerApp({super.key});
@@ -66,9 +67,10 @@ class TaskManagerApp extends StatelessWidget {
         '/sign-up': (_) => SignUpScreen(),
         '/forgot-email': (_) => ForgotPasswardEmailScreen(),
         '/verify-otp': (_) => VerifyOtpScreen(),
-        '/reset-passward': (_) => ResetPasswardScreen(),
+        '/reset-password': (_) => ResetPasswordScreen(),
         '/main-bottom-nav-screen': (_) => MainBottomNavHolderScreen(),
         '/add-new' : (_) => AddTaskScreen(),
+        '/update-profile': (_) => UpdateProfileScreen()
       },
       initialRoute: '/',
     );

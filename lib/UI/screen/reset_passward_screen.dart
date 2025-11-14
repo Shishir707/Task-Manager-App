@@ -2,14 +2,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/UI/widgets/backgroundScreen.dart';
 
-class ResetPasswardScreen extends StatefulWidget {
-  const ResetPasswardScreen({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
-  State<ResetPasswardScreen> createState() => _ResetPasswardScreenState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _ResetPasswardScreenState extends State<ResetPasswardScreen> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,20 +21,20 @@ class _ResetPasswardScreenState extends State<ResetPasswardScreen> {
             children: [
               SizedBox(height: 60),
               Text(
-                'Reset Passward',
+                'Reset Password',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               Text(
-                'Minimum length of passward should more than 8 characters',
+                'Minimum length of password should more than 8 characters',
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               SizedBox(height: 8),
               TextFormField(
-                decoration: InputDecoration(hintText: 'New Passward'),
+                decoration: InputDecoration(hintText: 'New Password'),
               ),
               SizedBox(),
               TextFormField(
-                decoration: InputDecoration(hintText: 'Confirm Passward'),
+                decoration: InputDecoration(hintText: 'Confirm Password'),
               ),
               SizedBox(height: 8),
               FilledButton(

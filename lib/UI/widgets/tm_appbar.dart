@@ -7,28 +7,33 @@ class TMappbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.green,
-      title: Row(
-        spacing: 6,
-        children: [
-          CircleAvatar(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Mir M Shishir',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.copyWith(color: Colors.white),
-              ),
-              Text(
-                'shishir@gmail.com',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: Colors.white),
-              ),
-            ],
-          ),
-        ],
+      title: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/update-profile');
+        },
+        child: Row(
+          spacing: 6,
+          children: [
+            CircleAvatar(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Mir M Shishir',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyLarge?.copyWith(color: Colors.white),
+                ),
+                Text(
+                  'shishir@gmail.com',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
