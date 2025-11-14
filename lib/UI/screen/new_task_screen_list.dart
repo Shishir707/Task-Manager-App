@@ -15,19 +15,21 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
       body: Column(
         children: [
           _NewSummaryList(),
-          SizedBox(height: 8,),
-          Expanded(
-            child: TaskCard(),
-          ),
+          SizedBox(height: 8),
+          Expanded(child: TaskCard()),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        Navigator.pushNamed(context, '/add-new');
-      }, child: Icon(Icons.add),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _onTapAddNewTaskButton,
+        child: Icon(Icons.add),
+      ),
     );
   }
-}
 
+  void _onTapAddNewTaskButton() {
+    Navigator.pushNamed(context, "/add-new");
+  }
+}
 
 class _NewSummaryList extends StatelessWidget {
   const _NewSummaryList();
