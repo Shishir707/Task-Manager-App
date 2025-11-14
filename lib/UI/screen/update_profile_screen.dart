@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/UI/widgets/backgroundScreen.dart';
 import 'package:task_manager/UI/widgets/tm_appbar.dart';
+import '../widgets/photo_picker.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
@@ -13,7 +14,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TMappbar(fromUpdateProfile: true,),
+      appBar: TMappbar(fromUpdateProfile: true),
       body: ScreenBackground(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -27,6 +28,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               SizedBox(height: 8),
+              GestureDetector(onTap: () {}, child: PhotoPicker()),
               TextFormField(decoration: InputDecoration(hintText: 'Email')),
               TextFormField(
                 decoration: InputDecoration(hintText: 'First name'),
