@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TMappbar extends StatelessWidget implements PreferredSizeWidget {
-  const TMappbar({super.key});
+  const TMappbar({super.key, this.fromUpdateProfile=false});
+
+  final bool fromUpdateProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -9,6 +11,9 @@ class TMappbar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.green,
       title: GestureDetector(
         onTap: () {
+          if (fromUpdateProfile){
+            return;
+          }
           Navigator.pushNamed(context, '/update-profile');
         },
         child: Row(
