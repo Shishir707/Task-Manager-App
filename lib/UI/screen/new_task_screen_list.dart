@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/task_card.dart';
+import 'package:task_manager/UI/widgets/task_card.dart';
 
 class NewTaskScreenList extends StatefulWidget {
   const NewTaskScreenList({super.key});
@@ -17,7 +17,7 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
           spacing: 8,
           children: [
             const SizedBox(),
-            _buildTaskSummaryListView(),
+            _NewSummaryList(),
             ListView.separated(
               itemCount: 10,
               primary: false,
@@ -40,28 +40,30 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
   }
 
   void _onTapAddNewTaskButton() {
-    Navigator.pushNamed(context, '/add-new');
+    Navigator.pushNamed(context, "/add-new");
   }
+}
 
-  Widget _buildTaskSummaryListView() {
+class _NewSummaryList extends StatelessWidget {
+  const _NewSummaryList();
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: 68,
       child: ListView.builder(
         itemCount: 10,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Card(
-            elevation: 0,
             color: Colors.white,
-            margin: EdgeInsets.only(left: 8),
+            elevation: 0,
+            margin: EdgeInsets.only(left: 5, top: 5),
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Column(
                 children: [
-                  Text('12', style: TextTheme.of(context).titleMedium),
+                  Text('12', style: TextTheme.of(context).titleLarge),
                   Text('New', style: TextTheme.of(context).labelSmall),
                 ],
               ),
