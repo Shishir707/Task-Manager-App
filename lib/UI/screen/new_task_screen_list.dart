@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/UI/widgets/task_card.dart';
+import '../widgets/task_card.dart';
 
 class NewTaskScreenList extends StatefulWidget {
   const NewTaskScreenList({super.key});
@@ -12,12 +12,25 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          _NewSummaryList(),
-          SizedBox(height: 8),
-          Expanded(child: TaskCard()),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          spacing: 8,
+          children: [
+            const SizedBox(),
+            _buildTaskSummaryListView(),
+            ListView.separated(
+              itemCount: 10,
+              primary: false,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return TaskCard();
+              },
+              separatorBuilder: (context, index) {
+                return SizedBox(height: 8);
+              },
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _onTapAddNewTaskButton,
@@ -27,30 +40,28 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
   }
 
   void _onTapAddNewTaskButton() {
-    Navigator.pushNamed(context, "/add-new");
+    Navigator.pushNamed(context, '/add-new');
   }
-}
 
-class _NewSummaryList extends StatelessWidget {
-  const _NewSummaryList();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildTaskSummaryListView() {
     return SizedBox(
-      height: 68,
+      height: 60,
       child: ListView.builder(
         itemCount: 10,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Card(
-            color: Colors.white,
             elevation: 0,
-            margin: EdgeInsets.only(left: 5, top: 5),
+            color: Colors.white,
+            margin: EdgeInsets.only(left: 8),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8,
+              ),
               child: Column(
                 children: [
-                  Text('12', style: TextTheme.of(context).titleLarge),
+                  Text('12', style: TextTheme.of(context).titleMedium),
                   Text('New', style: TextTheme.of(context).labelSmall),
                 ],
               ),
