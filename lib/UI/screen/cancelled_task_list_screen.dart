@@ -12,13 +12,22 @@ class _CancelledTaskListState extends State<CancelledTaskList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(height: 8,),
-          Expanded(
-            child: TaskCard(),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 8,),
+            ListView.separated(
+              itemCount: 10,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return TaskCard();
+              },
+              separatorBuilder: (context, index) {
+                return SizedBox(height: 8);
+              },
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){}, child: Icon(Icons.add),),
     );

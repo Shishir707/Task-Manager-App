@@ -36,7 +36,10 @@ class TMappbar extends StatelessWidget implements PreferredSizeWidget {
                   ).textTheme.bodyMedium?.copyWith(color: Colors.white),
                 ),
               ],
+
             ),
+            Spacer(),
+            IconButton(onPressed: (){}, icon: Icon(Icons.logout),color: Colors.red,)
           ],
         ),
       ),
