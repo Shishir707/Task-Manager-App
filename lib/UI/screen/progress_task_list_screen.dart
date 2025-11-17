@@ -18,6 +18,7 @@ class _ProgressTaskListState extends State<ProgressTaskList> {
             SizedBox(height: 8,),
             ListView.separated(
               itemCount: 10,
+              primary: false,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return TaskCard();
