@@ -170,10 +170,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
         context,
         "Registration Successful!. Please Log in...",
       );
+      _clearController();
     } else {
       falseScaffoldMessage(context, response.errorMessage);
     }
     loading = false;
     setState(() {});
+  }
+
+  void _clearController(){
+    _emailController.clear();
+    _firstController.clear();
+    _lastController.clear();
+    _mobileController.clear();
+    _passwordController.clear();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _firstController.dispose();
+    _lastController.dispose();
+    _mobileController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }
