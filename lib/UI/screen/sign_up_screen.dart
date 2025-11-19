@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/UI/widgets/backgroundScreen.dart';
 import 'package:task_manager/UI/widgets/scafold_message.dart';
 import 'package:task_manager/data/service/network_caller.dart';
-import 'package:task_manager/data/utils/myUrls.dart';
+import 'package:task_manager/data/utils/my_urls.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
