@@ -1,6 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/UI/widgets/backgroundScreen.dart';
+import 'package:task_manager/UI/widgets/scafold_message.dart';
 import 'package:task_manager/data/service/network_caller.dart';
 import 'package:task_manager/data/utils/my_urls.dart';
 
@@ -29,22 +31,44 @@ class _SignInScreenState extends State<SignInScreen> {
               SizedBox(height: 60),
               Text(
                 'Get Started With',
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .titleLarge,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               SizedBox(height: 8),
               TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(hintText: 'Email')),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                controller: _emailController,
+                decoration: InputDecoration(hintText: 'Email'),
+                validator: (String? value) {
+                  if (!EmailValidator.validate(value!) || value.isEmpty) {
+                    return "Please enter your email address";
+                  }
+                  return null;
+                },
+              ),
               TextFormField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(hintText: 'Passward')),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                obscureText: true,
+                controller: _passwordController,
+                decoration: InputDecoration(hintText: 'Password'),
+                validator: (String? value) {
+                  if (value!.trim().isEmpty) {
+                    return "Enter password to log in";
+                  }
+                  if (value!.length < 6) {
+                    return "password must be at least 6 character";
+                  }
+                },
+              ),
               SizedBox(height: 8),
-              FilledButton(
-                onPressed: _onTabSignInButton,
-                child: Icon(Icons.arrow_circle_right_outlined),
+              Visibility(
+                visible: loader == false,
+                replacement: Center(
+                  child: CircularProgressIndicator(color: Colors.green),
+                ),
+                child: FilledButton(
+                  onPressed: _onTabSignInButton,
+                  child: Icon(Icons.arrow_circle_right_outlined),
+                ),
               ),
               SizedBox(height: 24),
               TextButton(
@@ -84,7 +108,15 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _onTabSignInButton() {
-
+    if (_passwordController.text.length < 6){
+      falseScaffoldMessage(context, "Password must be at least 6 character");
+    }
+    if (_emailController.text.trim().isNotEmpty ||
+        _passwordController.text.isNotEmpty) {
+      _signIn();
+    } else {
+      falseScaffoldMessage(context, "Enter Your email & password correctly");
+    }
   }
 
   Future<void> _signIn() async {
@@ -94,18 +126,22 @@ class _SignInScreenState extends State<SignInScreen> {
 
     Map<String, dynamic> requestBody = {
       "email": _emailController.text.trim(),
-      "password": _passwordController.text
+      "password": _passwordController.text,
     };
 
     NetworkResponse response = await NetworkCaller.postRequest(
-        MyUrls.login, body: requestBody);
+      MyUrls.login,
+      body: requestBody,
+    );
 
-    if (response.isSuccess){
+    loader = false;
 
-    }else{
-
+    if (response.isSuccess) {
+      trueScaffoldMessage(context, "Login in successfully✔️");
+      Navigator.pushReplacementNamed(context, "/main-bottom-nav-screen");
+    } else {
+      falseScaffoldMessage(context, "Incorrect email or password!. Try again");
     }
+    setState(() {});
   }
-
-
 }
