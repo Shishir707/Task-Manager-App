@@ -87,7 +87,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   }
 
-  void _signIn() {
+  Future<void> _signIn() async {
     setState(() {});
 
     loader = true;
