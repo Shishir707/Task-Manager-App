@@ -102,9 +102,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                 ),
                 SizedBox(height: 8),
-                FilledButton(
-                  onPressed: _onTabSignUpButton,
-                  child: Icon(Icons.arrow_circle_right_outlined),
+                Visibility(
+                  visible: loading == false,
+                  replacement: Center(
+                    child: CircularProgressIndicator(color: Colors.green),
+                  ),
+                  child: FilledButton(
+                    onPressed: _onTabSignUpButton,
+                    child: Icon(Icons.arrow_circle_right_outlined),
+                  ),
                 ),
                 SizedBox(height: 24),
                 RichText(
@@ -160,9 +166,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
 
     if (response.isSuccess) {
-      trueScaffoldMessage(context, "Registration Successful!. Please Log in...");
+      trueScaffoldMessage(
+        context,
+        "Registration Successful!. Please Log in...",
+      );
     } else {
       falseScaffoldMessage(context, response.errorMessage);
     }
+    loading = false;
+    setState(() {});
   }
 }
