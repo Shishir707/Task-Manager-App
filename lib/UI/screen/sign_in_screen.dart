@@ -1,6 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_manager/UI/controller/auth_controller.dart';
+import 'package:task_manager/UI/controller/model_class.dart';
 import 'package:task_manager/UI/widgets/backgroundScreen.dart';
 import 'package:task_manager/UI/widgets/scafold_message.dart';
 import 'package:task_manager/data/service/network_caller.dart';
@@ -137,10 +139,14 @@ class _SignInScreenState extends State<SignInScreen> {
     loader = false;
 
     if (response.isSuccess) {
+      UserModel userData = await UserModel.fromJson(response.body['data']);
+      String accessToken = response.body['token'];
+      await AuthController.saveLoginData(accessToken, userData);
       trueScaffoldMessage(context, "Login in successfully✔️");
       Navigator.pushReplacementNamed(context, "/main-bottom-nav-screen");
     } else {
       falseScaffoldMessage(context, "Incorrect email or password!. Try again");
+
     }
     setState(() {});
   }

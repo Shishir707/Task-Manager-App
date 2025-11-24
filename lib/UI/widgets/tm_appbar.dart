@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/UI/controller/auth_controller.dart';
 
 class TMappbar extends StatelessWidget implements PreferredSizeWidget {
-  const TMappbar({super.key, this.fromUpdateProfile=false});
+  const TMappbar({super.key, this.fromUpdateProfile = false});
 
   final bool fromUpdateProfile;
 
@@ -11,7 +12,7 @@ class TMappbar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.green,
       title: GestureDetector(
         onTap: () {
-          if (fromUpdateProfile){
+          if (fromUpdateProfile) {
             return;
           }
           Navigator.pushNamed(context, '/update-profile');
@@ -36,10 +37,20 @@ class TMappbar extends StatelessWidget implements PreferredSizeWidget {
                   ).textTheme.bodyMedium?.copyWith(color: Colors.white),
                 ),
               ],
-
             ),
             Spacer(),
-            IconButton(onPressed: (){}, icon: Icon(Icons.logout),color: Colors.red,)
+            IconButton(
+              onPressed: () async {
+                await AuthController.logOutUser();
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/sign-in',
+                  (predicate) => false,
+                );
+              },
+              icon: Icon(Icons.logout),
+              color: Colors.red,
+            ),
           ],
         ),
       ),
