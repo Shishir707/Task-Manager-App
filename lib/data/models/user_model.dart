@@ -25,6 +25,10 @@ class UserModel {
     );
   }
 
+  String get fullName{
+    return "$firstName $lastName";
+  }
+
   Map<String, dynamic> toJson() {
     return {
       "_id": id,

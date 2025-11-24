@@ -25,6 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(seconds: 2));
     bool isAlreadyLogin = await AuthController.isUserLogin();
     if (isAlreadyLogin) {
+      await AuthController.getLoginData();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MainBottomNavHolderScreen()),
