@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class TaskModel {
   final String id;
   final String title;
@@ -22,7 +24,7 @@ class TaskModel {
       description: jsonData['description'],
       status: jsonData['status'],
       email: jsonData['email'],
-      createdDate: jsonData['createdDate'],
+      createdDate: DateFormat().format(DateTime.parse(jsonData['createdDate'])),
     );
   }
 }
