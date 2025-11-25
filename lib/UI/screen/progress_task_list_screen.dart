@@ -21,7 +21,7 @@ class _ProgressTaskListState extends State<ProgressTaskList> {
               primary: false,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return TaskCard();
+                // return TaskCard();
               },
               separatorBuilder: (context, index) {
                 return SizedBox(height: 8);

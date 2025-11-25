@@ -41,7 +41,7 @@ class TMappbar extends StatelessWidget implements PreferredSizeWidget {
             Spacer(),
             IconButton(
               onPressed: () async {
-                await AuthController.logOutUser();
+                await AuthController.clearCache();
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   '/sign-in',
