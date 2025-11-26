@@ -35,31 +35,38 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
           getNewTask();
           getSumTask();
         },
-        child: ListView(
-          children: [
-            Visibility(
-              visible: isLoading == false,
-              replacement: SizedBox(
-                height: 350,
-                child: CenterCircularProgress(),
-              ),
-              child: Column(
-                spacing: 8,
+        child: _newTaskList.isNotEmpty
+            ? ListView(
                 children: [
-                  NewSummaryList(listCount: _totalTaskCount),
-                  ListView.separated(
-                    itemCount: _newTaskList.length,
-                    primary: false,
-                    shrinkWrap: true,
-                    itemBuilder: (_, index) =>
-                        TaskCard(taskModel: _newTaskList[index]),
-                    separatorBuilder: (_, index) => SizedBox(height: 8),
+                  Visibility(
+                    visible: isLoading == false,
+                    replacement: SizedBox(
+                      height: 350,
+                      child: CenterCircularProgress(),
+                    ),
+                    child: Column(
+                      spacing: 8,
+                      children: [
+                        NewSummaryList(listCount: _totalTaskCount),
+                        ListView.separated(
+                          itemCount: _newTaskList.length,
+                          primary: false,
+                          shrinkWrap: true,
+                          itemBuilder: (_, index) =>
+                              TaskCard(taskModel: _newTaskList[index]),
+                          separatorBuilder: (_, index) => SizedBox(height: 8),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
+              )
+            : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Image.asset('assets/images/noTask.png')],
+                ),
               ),
-            ),
-          ],
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _onTapAddNewTaskButton,
@@ -129,13 +136,16 @@ class NewSummaryList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return SizedBox(
-            width: MediaQuery.of(context).size.width/4,
+            width: MediaQuery.of(context).size.width / 4,
             child: Card(
               color: Colors.white,
               elevation: 0,
               margin: EdgeInsets.only(left: 5, top: 5),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Column(
                   children: [
                     Text(

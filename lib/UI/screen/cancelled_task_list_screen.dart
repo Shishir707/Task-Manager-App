@@ -31,33 +31,42 @@ class _CancelledTaskListState extends State<CancelledTaskList> {
         onRefresh: () async {
           getCancelledTask();
         },
-        child: ListView(
-          children: [
-            Visibility(
-              visible: isLoading == false,
-              replacement: SizedBox(
-                height: 200,
-                child: CenterCircularProgress(),
-              ),
-              child: Column(
+        child: cancelledTaskList.isNotEmpty
+            ? ListView(
                 children: [
-                  SizedBox(height: 8),
-                  ListView.separated(
-                    itemCount: cancelledTaskList.length,
-                    primary: false,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return TaskCard(taskModel: cancelledTaskList[index]);
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 8);
-                    },
+                  Visibility(
+                    visible: isLoading == false,
+                    replacement: SizedBox(
+                      height: 200,
+                      child: CenterCircularProgress(),
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 8),
+                        ListView.separated(
+                          itemCount: cancelledTaskList.length,
+                          primary: false,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return TaskCard(
+                              taskModel: cancelledTaskList[index],
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: 8);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
+              )
+            : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Image.asset('assets/images/noTask.png')],
+                ),
               ),
-            ),
-          ],
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _onTapAddTaskButton,
