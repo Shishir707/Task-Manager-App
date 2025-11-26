@@ -64,7 +64,13 @@ class _CancelledTaskListState extends State<CancelledTaskList> {
             : Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Image.asset('assets/images/noTask.png')],
+                  children: [
+                    Image.asset('assets/images/noTask.png'),
+                    Text(
+                      "No cancelled tasks found",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
                 ),
               ),
       ),

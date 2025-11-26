@@ -64,7 +64,13 @@ class _CompletedTaskListState extends State<CompletedTaskList> {
             : Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Image.asset('assets/images/noTask.png')],
+                  children: [
+                    Image.asset('assets/images/noTask.png'),
+                    Text(
+                      "No completed tasks found",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
                 ),
               ),
       ),

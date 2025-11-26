@@ -64,7 +64,10 @@ class _ProgressTaskListState extends State<ProgressTaskList> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset('assets/images/noTask.png'),
-                    Text("No cancelled tasks found"),
+                    Text(
+                      "No progress tasks found",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                   ],
                 ),
               ),

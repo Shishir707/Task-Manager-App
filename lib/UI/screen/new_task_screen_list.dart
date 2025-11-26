@@ -64,7 +64,13 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
             : Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Image.asset('assets/images/noTask.png')],
+                  children: [
+                    Image.asset('assets/images/noTask.png'),
+                    Text(
+                      "No new tasks found",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
                 ),
               ),
       ),
