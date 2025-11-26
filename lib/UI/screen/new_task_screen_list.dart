@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/UI/widgets/scafold_message.dart';
+import 'package:task_manager/UI/widgets/scaffold_message.dart';
 import 'package:task_manager/UI/widgets/task_card.dart';
 import 'package:task_manager/data/models/task_model.dart';
 import 'package:task_manager/data/service/network_caller.dart';
@@ -128,23 +128,26 @@ class NewSummaryList extends StatelessWidget {
         itemCount: listCount.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return Card(
-            color: Colors.white,
-            elevation: 0,
-            margin: EdgeInsets.only(left: 5, top: 5),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Column(
-                children: [
-                  Text(
-                    listCount[index].sum.toString(),
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  Text(
-                    listCount[index].id,
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                ],
+          return SizedBox(
+            width: MediaQuery.of(context).size.width/4,
+            child: Card(
+              color: Colors.white,
+              elevation: 0,
+              margin: EdgeInsets.only(left: 5, top: 5),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Column(
+                  children: [
+                    Text(
+                      listCount[index].sum.toString(),
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    Text(
+                      listCount[index].id,
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
+                  ],
+                ),
               ),
             ),
           );

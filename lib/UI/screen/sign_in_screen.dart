@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/UI/controller/auth_controller.dart';
 import 'package:task_manager/data/models/user_model.dart';
 import 'package:task_manager/UI/widgets/backgroundScreen.dart';
-import 'package:task_manager/UI/widgets/scafold_message.dart';
+import 'package:task_manager/UI/widgets/scaffold_message.dart';
 import 'package:task_manager/data/service/network_caller.dart';
 import 'package:task_manager/data/utils/my_urls.dart';
 
