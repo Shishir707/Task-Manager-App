@@ -74,7 +74,7 @@ class _CancelledTaskListState extends State<CancelledTaskList> {
     isLoading = true;
     setState(() {});
     NetworkResponse response = await NetworkCaller.getRequest(
-      MyUrls.cancelledTaskUrl,
+      MyUrls.cancelledTasksUrl,
     );
 
     if (response.isSuccess) {

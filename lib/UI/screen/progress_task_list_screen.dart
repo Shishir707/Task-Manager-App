@@ -74,7 +74,7 @@ class _ProgressTaskListState extends State<ProgressTaskList> {
     isLoading = true;
     setState(() {});
     NetworkResponse response = await NetworkCaller.getRequest(
-      MyUrls.progressTaskList,
+      MyUrls.progressTasksUrl,
     );
 
     if (response.isSuccess) {
