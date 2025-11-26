@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:task_manager/UI/controller/auth_controller.dart';
+import 'package:task_manager/app.dart';
 
 class NetworkCaller {
   static Future<NetworkResponse> getRequest(String url) async {
@@ -23,6 +25,14 @@ class NetworkCaller {
           isSuccess: true,
           statusCode: response.statusCode,
           body: decodeData,
+        );
+      } else if (response.statusCode == 401) {
+        await AuthController.clearCache();
+        _onUnauthorize();
+        return NetworkResponse(
+          isSuccess: false,
+          statusCode: -1,
+          errorMessage: "Un-Authorize",
         );
       } else {
         return NetworkResponse(
@@ -62,6 +72,14 @@ class NetworkCaller {
           statusCode: response.statusCode,
           body: decodeData,
         );
+      } else if (response.statusCode == 401) {
+        await AuthController.clearCache();
+        _onUnauthorize();
+        return NetworkResponse(
+          isSuccess: false,
+          statusCode: -1,
+          errorMessage: "Un-Authorize",
+        );
       } else {
         return NetworkResponse(
           isSuccess: false,
@@ -76,6 +94,13 @@ class NetworkCaller {
         errorMessage: e.toString(),
       );
     }
+  }
+
+  static void _onUnauthorize() async {
+    Navigator.pushNamed(
+      TaskManagerApp.navigatorKey.currentContext!,
+      "/sign-in",
+    );
   }
 
   static void _logRequest(String url, {Map<String, dynamic>? body}) {

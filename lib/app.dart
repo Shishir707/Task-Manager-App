@@ -10,11 +10,14 @@ import 'UI/screen/splash_screen.dart';
 import 'UI/screen/update_profile_screen.dart';
 
 class TaskManagerApp extends StatelessWidget {
-  const TaskManagerApp({super.key});
+  TaskManagerApp({super.key});
+
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       theme: ThemeData(
         colorSchemeSeed: Colors.green,
         inputDecorationTheme: InputDecorationTheme(
@@ -69,8 +72,8 @@ class TaskManagerApp extends StatelessWidget {
         '/verify-otp': (_) => VerifyOtpScreen(),
         '/reset-password': (_) => ResetPasswordScreen(),
         '/main-bottom-nav-screen': (_) => MainBottomNavHolderScreen(),
-        '/add-new' : (_) => AddTaskScreen(),
-        '/update-profile': (_) => UpdateProfileScreen()
+        '/add-new': (_) => AddTaskScreen(),
+        '/update-profile': (_) => UpdateProfileScreen(),
       },
       initialRoute: '/',
     );
