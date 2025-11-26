@@ -35,25 +35,30 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
           getNewTask();
           getSumTask();
         },
-        child: SingleChildScrollView(
-          child: Visibility(
-            visible: isLoading == false,
-            replacement: SizedBox(height: 350, child: CenterCircularProgress()),
-            child: Column(
-              spacing: 8,
-              children: [
-                NewSummaryList(listCount: _totalTaskCount),
-                ListView.separated(
-                  itemCount: _newTaskList.length,
-                  primary: false,
-                  shrinkWrap: true,
-                  itemBuilder: (_, index) =>
-                      TaskCard(taskModel: _newTaskList[index]),
-                  separatorBuilder: (_, index) => SizedBox(height: 8),
-                ),
-              ],
+        child: ListView(
+          children: [
+            Visibility(
+              visible: isLoading == false,
+              replacement: SizedBox(
+                height: 350,
+                child: CenterCircularProgress(),
+              ),
+              child: Column(
+                spacing: 8,
+                children: [
+                  NewSummaryList(listCount: _totalTaskCount),
+                  ListView.separated(
+                    itemCount: _newTaskList.length,
+                    primary: false,
+                    shrinkWrap: true,
+                    itemBuilder: (_, index) =>
+                        TaskCard(taskModel: _newTaskList[index]),
+                    separatorBuilder: (_, index) => SizedBox(height: 8),
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
