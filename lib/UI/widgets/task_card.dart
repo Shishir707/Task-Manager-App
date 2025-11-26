@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/UI/widgets/center_progress.dart';
+import 'package:task_manager/UI/widgets/scaffold_message.dart';
 import 'package:task_manager/data/models/task_model.dart';
+import 'package:task_manager/data/service/network_caller.dart';
+import 'package:task_manager/data/utils/my_urls.dart';
 
-class TaskCard extends StatelessWidget {
+class TaskCard extends StatefulWidget {
   const TaskCard({super.key, required this.taskModel});
 
   final TaskModel taskModel;
+
+  @override
+  State<TaskCard> createState() => _TaskCardState();
+}
+
+class _TaskCardState extends State<TaskCard> {
+  bool isLoading = false;
+  bool isDeleteInProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +31,19 @@ class TaskCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            taskModel.title,
+            widget.taskModel.title,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 4),
           Text(
-            taskModel.description,
+            widget.taskModel.description,
             style: TextStyle(color: Colors.black),
           ),
           SizedBox(height: 4),
-          Text(taskModel.createdDate, style: TextStyle(color: Colors.grey)),
+          Text(
+            widget.taskModel.createdDate,
+            style: TextStyle(color: Colors.grey),
+          ),
           SizedBox(height: 10),
           Row(
             children: [
@@ -39,7 +54,7 @@ class TaskCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(
-                  taskModel.status,
+                  widget.taskModel.status,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
@@ -48,18 +63,122 @@ class TaskCard extends StatelessWidget {
               ),
 
               Spacer(),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.delete, color: Colors.red.shade300),
+              Visibility(
+                visible: isDeleteInProgress == false,
+                replacement: CenterCircularProgress(),
+                child: IconButton(
+                  onPressed: _onTapDeleteTask,
+                  icon: Icon(Icons.delete, color: Colors.red.shade300),
+                ),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.edit, color: Colors.blue.shade300),
+              Visibility(
+                visible: isLoading == false,
+                replacement: CenterCircularProgress(),
+                child: IconButton(
+                  onPressed: _onTapEditTask,
+                  icon: Icon(Icons.edit, color: Colors.blue.shade300),
+                ),
               ),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  void _onTapDeleteTask() async {
+    isDeleteInProgress = true;
+    setState(() {});
+
+    NetworkResponse response = await NetworkCaller.getRequest(
+      MyUrls.deleteTaskUrl(widget.taskModel.id),
+    );
+
+    if (response.statusCode == 200) {
+      isDeleteInProgress = false;
+      setState(() {});
+      trueScaffoldMessage(
+        context,
+        "${widget.taskModel.title} has been deleted successfully",
+      );
+    } else {
+      isDeleteInProgress = false;
+      setState(() {});
+      falseScaffoldMessage(context, response.errorMessage);
+    }
+  }
+
+  void _onTapEditTask() {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Change Status'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text('New'),
+              trailing: isSelectedState('New') ? Icon(Icons.done) : null,
+              onTap: () {
+                onTapChangeStatus('New');
+              },
+            ),
+            ListTile(
+              title: Text('Progress'),
+              trailing: isSelectedState('Progress') ? Icon(Icons.done) : null,
+              onTap: () {
+                onTapChangeStatus('Progress');
+              },
+            ),
+            ListTile(
+              title: Text('Cancelled'),
+              trailing: isSelectedState('Cancelled') ? Icon(Icons.done) : null,
+              onTap: () {
+                onTapChangeStatus('Cancelled');
+              },
+            ),
+            ListTile(
+              title: Text('Completed'),
+              trailing: isSelectedState('Completed') ? Icon(Icons.done) : null,
+              onTap: () {
+                onTapChangeStatus('Completed');
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _updateStatus(String status) async {
+    isLoading = true;
+    setState(() {});
+
+    NetworkResponse response = await NetworkCaller.getRequest(
+      MyUrls.updateTaskUrl(widget.taskModel.id, status),
+    );
+
+    if (response.statusCode == 200) {
+      isLoading = false;
+      setState(() {});
+    } else {
+      isLoading = false;
+      setState(() {});
+      falseScaffoldMessage(context, response.errorMessage);
+    }
+  }
+
+  bool isSelectedState(String status) {
+    return widget.taskModel.status == status;
+  }
+
+  void onTapChangeStatus(String status) {
+    if (isSelectedState(status)) return;
+    _updateStatus(status);
+    Navigator.pop(context);
+    trueScaffoldMessage(
+      context,
+      "Successfully changed status ${widget.taskModel.status} to $status",
     );
   }
 }
