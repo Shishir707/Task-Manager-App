@@ -5,6 +5,9 @@ import 'package:task_manager/data/models/task_model.dart';
 import 'package:task_manager/data/service/network_caller.dart';
 import 'package:task_manager/data/utils/my_urls.dart';
 
+import '../../data/models/task_count_model.dart';
+import '../widgets/center_progress.dart';
+
 class NewTaskScreenList extends StatefulWidget {
   const NewTaskScreenList({super.key});
 
@@ -15,34 +18,41 @@ class NewTaskScreenList extends StatefulWidget {
 class _NewTaskScreenListState extends State<NewTaskScreenList> {
   bool isLoading = false;
   List<TaskModel> _newTaskList = [];
+  List<StatusCountModel> _totalTaskCount = [];
 
   @override
   void initState() {
     super.initState();
     getNewTask();
+    getSumTask();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Visibility(
-          visible: isLoading == false,
-          replacement: Center(child: CircularProgressIndicator()),
-          child: Column(
-            spacing: 8,
-            children: [
-              const SizedBox(height: 8),
-              _NewSummaryList(),
-              ListView.separated(
-                itemCount: _newTaskList.length,
-                primary: false,
-                shrinkWrap: true,
-                itemBuilder: (_, index) =>
-                    TaskCard(taskModel: _newTaskList[index]),
-                separatorBuilder: (_, index) => SizedBox(height: 8),
-              ),
-            ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          getNewTask();
+          getSumTask();
+        },
+        child: SingleChildScrollView(
+          child: Visibility(
+            visible: isLoading == false,
+            replacement: SizedBox(height: 350, child: CenterCircularProgress()),
+            child: Column(
+              spacing: 8,
+              children: [
+                NewSummaryList(listCount: _totalTaskCount),
+                ListView.separated(
+                  itemCount: _newTaskList.length,
+                  primary: false,
+                  shrinkWrap: true,
+                  itemBuilder: (_, index) =>
+                      TaskCard(taskModel: _newTaskList[index]),
+                  separatorBuilder: (_, index) => SizedBox(height: 8),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -59,7 +69,6 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
 
   Future<void> getNewTask() async {
     isLoading = true;
-    print('ok');
     setState(() {});
     NetworkResponse response = await NetworkCaller.getRequest(
       MyUrls.newTaskList,
@@ -78,17 +87,40 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
     isLoading = false;
     setState(() {});
   }
+
+  Future<void> getSumTask() async {
+    isLoading = true;
+    setState(() {});
+    NetworkResponse response = await NetworkCaller.getRequest(
+      MyUrls.totalTaskUrl,
+    );
+
+    if (response.isSuccess) {
+      List<StatusCountModel> countList = [];
+      for (Map<String, dynamic> jsonData in response.body['data']) {
+        countList.add(StatusCountModel.fromJson(jsonData));
+      }
+      _totalTaskCount = countList;
+    } else {
+      falseScaffoldMessage(context, response.errorMessage);
+    }
+
+    isLoading = false;
+    setState(() {});
+  }
 }
 
-class _NewSummaryList extends StatelessWidget {
-  const _NewSummaryList();
+class NewSummaryList extends StatelessWidget {
+  const NewSummaryList({super.key, required this.listCount});
+
+  final List<StatusCountModel> listCount;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 68,
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: listCount.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Card(
@@ -99,8 +131,14 @@ class _NewSummaryList extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Column(
                 children: [
-                  Text('12', style: Theme.of(context).textTheme.titleLarge),
-                  Text('New', style: Theme.of(context).textTheme.labelSmall),
+                  Text(
+                    listCount[index].sum.toString(),
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    listCount[index].id,
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
                 ],
               ),
             ),
