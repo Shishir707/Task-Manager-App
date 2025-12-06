@@ -14,7 +14,7 @@ class ForgotPasswordEmailScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
-  final TextEditingController _emailController = TextEditingController();
+  static final TextEditingController _emailController = TextEditingController();
   final bool isVerifyInProgress = false;
 
   @override
@@ -91,8 +91,8 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
       );
 
       if (response.isSuccess) {
-        trueScaffoldMessage(context, "OTP sent successfully!");
-        Navigator.pushNamed(context, '/verify-otp');
+        trueScaffoldMessage(context, response.body['data']);
+        Navigator.pushNamed(context, '/verify-otp',arguments: myEmail);
       } else {
         falseScaffoldMessage(context, response.errorMessage);
       }
@@ -103,5 +103,11 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
 
   void _onTapSignInButon() {
     Navigator.pop(context);
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
   }
 }

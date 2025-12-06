@@ -4,15 +4,16 @@ import 'package:task_manager/UI/screen/sign_in_screen.dart';
 import 'package:task_manager/UI/screen/sign_up_screen.dart';
 import 'UI/screen/main_bottom_nav_holder_screen.dart';
 import 'UI/screen/otp_verification_screen.dart';
-import 'UI/screen/forgot_passward_email_screen.dart';
-import 'UI/screen/reset_passward_screen.dart';
+import 'UI/screen/forgot_password_email_screen.dart';
+import 'UI/screen/reset_password_screen.dart';
 import 'UI/screen/splash_screen.dart';
 import 'UI/screen/update_profile_screen.dart';
 
 class TaskManagerApp extends StatelessWidget {
-  TaskManagerApp({super.key});
+  const TaskManagerApp({super.key});
 
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
