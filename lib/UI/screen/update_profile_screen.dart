@@ -1,9 +1,16 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:task_manager/UI/controller/auth_controller.dart';
 import 'package:task_manager/UI/widgets/backgroundScreen.dart';
+import 'package:task_manager/UI/widgets/center_progress.dart';
+import 'package:task_manager/UI/widgets/scaffold_message.dart';
 import 'package:task_manager/UI/widgets/tm_appbar.dart';
 import 'package:task_manager/data/models/user_model.dart';
+import 'package:task_manager/data/service/network_caller.dart';
+import 'package:task_manager/data/utils/my_urls.dart';
 import '../widgets/photo_picker.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
@@ -24,6 +31,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final ImagePicker imagePicker = ImagePicker();
 
   XFile? pickedImage;
+
+  bool isUpdateInProgress = false;
 
   @override
   void initState() {
@@ -89,7 +98,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   validator: (String? value) {
                     if (value!.trim().isEmpty) {
                       return "Enter mobile number";
-                    } else if (value!.length < 11) {
+                    } else if (value.length < 11) {
                       return "Enter 11 digit phone number";
                     }
                     return null;
@@ -108,9 +117,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   },
                 ),
                 SizedBox(height: 8),
-                FilledButton(
-                  onPressed: _onTapUpdateProfileButton,
-                  child: Icon(Icons.arrow_circle_right_outlined),
+                Visibility(
+                  visible: isUpdateInProgress = true,
+                  replacement: CenterCircularProgress(),
+                  child: FilledButton(
+                    onPressed: _onTapUpdateProfileButton,
+                    child: Icon(Icons.arrow_circle_right_outlined),
+                  ),
                 ),
               ],
             ),
@@ -130,6 +143,42 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   void _onTapUpdateProfileButton() {
-    if (_formKey.currentState!.validate()) {}
+    if (_formKey.currentState!.validate()) {
+      _updateProfile();
+    }
+  }
+
+  Future<void> _updateProfile() async {
+    isUpdateInProgress = true;
+    setState(() {});
+
+    Map<String, dynamic> requestBody = {
+      "email": _emailController.text,
+      "firstName": _firstController.text.trim(),
+      "lastName": _lastController.text.trim(),
+      "mobile": _mobileController.text.trim(),
+    };
+
+    if (_passController.text.isNotEmpty) {
+      requestBody["password"] = _passController.text;
+    }
+
+    if (pickedImage != null) {
+      Uint8List imgBytes = await pickedImage!.readAsBytes();
+      requestBody["photo"] = base64Encode(imgBytes);
+    }
+
+    final NetworkResponse response = await NetworkCaller.postRequest(
+      MyUrls.updateProfile,
+      body: requestBody,
+    );
+
+    if (response.isSuccess) {
+      requestBody["_id"] = AuthController.userData?.id;
+      await AuthController.updateUserData(UserModel.fromJson(requestBody));
+      trueScaffoldMessage(context, "Profile Updated Successfully!");
+    } else {
+      falseScaffoldMessage(context, response.errorMessage);
+    }
   }
 }
