@@ -67,7 +67,7 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
                   children: [
                     Image.asset('assets/images/noTask.png'),
                     Text(
-                      "No new tasks found",
+                      "No New tasks found",
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ],

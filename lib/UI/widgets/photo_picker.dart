@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PhotoPicker extends StatelessWidget {
-  const PhotoPicker({
-    super.key,
-  });
+  const PhotoPicker({super.key, required this.pickedImage});
+
+  final XFile? pickedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +12,8 @@ class PhotoPicker extends StatelessWidget {
       height: 50,
       width: double.maxFinite,
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8)
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         spacing: 8,
@@ -21,16 +22,20 @@ class PhotoPicker extends StatelessWidget {
             height: 50,
             width: 80,
             decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    bottomLeft: Radius.circular(8)
-                )
+              color: Colors.grey,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+              ),
             ),
             alignment: Alignment.center,
             child: Text('Photo'),
           ),
-          Expanded(child: Text('Select Photo'))
+          Expanded(
+            child: pickedImage == null
+                ? Text('Select Photo')
+                : Text(pickedImage!.name),
+          ),
         ],
       ),
     );

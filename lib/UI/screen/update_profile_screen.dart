@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:task_manager/UI/controller/auth_controller.dart';
 import 'package:task_manager/UI/widgets/backgroundScreen.dart';
 import 'package:task_manager/UI/widgets/tm_appbar.dart';
+import 'package:task_manager/data/models/user_model.dart';
 import '../widgets/photo_picker.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
@@ -11,6 +14,26 @@ class UpdateProfileScreen extends StatefulWidget {
 }
 
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _firstController = TextEditingController();
+  final TextEditingController _lastController = TextEditingController();
+  final TextEditingController _mobileController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final ImagePicker imagePicker = ImagePicker();
+
+  XFile? pickedImage;
+
+  @override
+  void initState() {
+    final UserModel userModel = AuthController.userData!;
+    _emailController.text = userModel.email;
+    _firstController.text = userModel.firstName;
+    _lastController.text = userModel.lastName;
+    _mobileController.text = userModel.mobile;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,35 +41,95 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       body: ScreenBackground(
         child: Padding(
           padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 8,
-            children: [
-              SizedBox(height: 60),
-              Text(
-                'Update Profile',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              SizedBox(height: 8),
-              GestureDetector(onTap: () {}, child: PhotoPicker()),
-              TextFormField(decoration: InputDecoration(hintText: 'Email')),
-              TextFormField(
-                decoration: InputDecoration(hintText: 'First name'),
-              ),
-              TextFormField(decoration: InputDecoration(hintText: 'Last name')),
-              TextFormField(decoration: InputDecoration(hintText: 'Mobile')),
-              TextFormField(decoration: InputDecoration(hintText: 'Password')),
-              SizedBox(height: 8),
-              FilledButton(
-                onPressed: _onTapUpdateProfileButton,
-                child: Icon(Icons.arrow_circle_right_outlined),
-              ),
-            ],
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 8,
+              children: [
+                SizedBox(height: 60),
+                Text(
+                  'Update Profile',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                SizedBox(height: 8),
+                GestureDetector(
+                  onTap: _chooseImage,
+                  child: PhotoPicker(pickedImage: pickedImage),
+                ),
+                TextFormField(
+                  controller: _emailController,
+                  enabled: false,
+                  decoration: InputDecoration(hintText: 'Email'),
+                ),
+                TextFormField(
+                  controller: _firstController,
+                  decoration: InputDecoration(hintText: 'First name'),
+                  validator: (String? value) {
+                    if (value!.trim().isEmpty) {
+                      return "Enter first name";
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _lastController,
+                  decoration: InputDecoration(hintText: 'Last name'),
+                  validator: (String? value) {
+                    if (value!.trim().isEmpty) {
+                      return "Enter last name";
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _mobileController,
+                  decoration: InputDecoration(hintText: 'Mobile'),
+                  validator: (String? value) {
+                    if (value!.trim().isEmpty) {
+                      return "Enter mobile number";
+                    } else if (value!.length < 11) {
+                      return "Enter 11 digit phone number";
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  obscureText: true,
+                  controller: _passController,
+                  decoration: InputDecoration(hintText: 'Password'),
+                  validator: (String? value) {
+                    String password = value ?? "";
+                    if (password.isNotEmpty && password.length < 6) {
+                      return "Enter a password at least 6 letter";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 8),
+                FilledButton(
+                  onPressed: _onTapUpdateProfileButton,
+                  child: Icon(Icons.arrow_circle_right_outlined),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  void _onTapUpdateProfileButton() {}
+  Future<void> _chooseImage() async {
+    XFile? image = await imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      pickedImage = image;
+      setState(() {});
+    }
+  }
+
+  void _onTapUpdateProfileButton() {
+    if (_formKey.currentState!.validate()) {}
+  }
 }
