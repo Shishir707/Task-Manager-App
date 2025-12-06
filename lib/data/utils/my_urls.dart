@@ -21,4 +21,9 @@ class MyUrls {
 
   static String verifyEmail(String email) =>
       "$_baseUrl/RecoverVerifyEmail/$email";
+
+  static String verifyOtp(String email, String otp) =>
+      "$_baseUrl/RecoverVerifyOtp/$email/$otp";
+
+  static const String resetPassword = "$_baseUrl/RecoverResetPassword";
 }

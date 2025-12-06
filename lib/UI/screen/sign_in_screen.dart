@@ -110,7 +110,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _onTabSignInButton() {
-    if (_passwordController.text.length < 6){
+    if (_passwordController.text.length < 6) {
       falseScaffoldMessage(context, "Password must be at least 6 character");
     }
     if (_emailController.text.trim().isNotEmpty ||
@@ -139,14 +139,13 @@ class _SignInScreenState extends State<SignInScreen> {
     loader = false;
 
     if (response.isSuccess) {
-      UserModel userData = await UserModel.fromJson(response.body['data']);
+      UserModel userData = UserModel.fromJson(response.body['data']);
       String accessToken = response.body['token'];
       await AuthController.saveLoginData(accessToken, userData);
       trueScaffoldMessage(context, "Login in successfully✔️");
       Navigator.pushReplacementNamed(context, "/main-bottom-nav-screen");
     } else {
       falseScaffoldMessage(context, "Incorrect email or password!. Try again");
-
     }
     setState(() {});
   }
