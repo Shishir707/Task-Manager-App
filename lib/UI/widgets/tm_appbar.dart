@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:task_manager/UI/controller/auth_controller.dart';
 
@@ -20,7 +22,16 @@ class TMappbar extends StatelessWidget implements PreferredSizeWidget {
         child: Row(
           spacing: 6,
           children: [
-            CircleAvatar(),
+            CircleAvatar(
+              radius: 22,
+              backgroundColor: Colors.yellow,
+              backgroundImage: AuthController.userData!.photo.isEmpty
+                  ? null
+                  : MemoryImage(base64Decode(AuthController.userData!.photo)),
+              child: AuthController.userData!.photo.isEmpty
+                  ? Icon(Icons.person, size: 30, color: Colors.black)
+                  : null,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
