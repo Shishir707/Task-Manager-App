@@ -68,7 +68,7 @@ class TaskManagerApp extends StatelessWidget {
         '/': (_) => SplashScreen(),
         '/sign-in': (_) => SignInScreen(),
         '/sign-up': (_) => SignUpScreen(),
-        '/forgot-email': (_) => ForgotPasswardEmailScreen(),
+        '/forgot-email': (_) => ForgotPasswordEmailScreen(),
         '/verify-otp': (_) => VerifyOtpScreen(),
         '/reset-password': (_) => ResetPasswordScreen(),
         '/main-bottom-nav-screen': (_) => MainBottomNavHolderScreen(),

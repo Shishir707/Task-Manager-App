@@ -1,16 +1,22 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/UI/widgets/backgroundScreen.dart';
+import 'package:task_manager/UI/widgets/scaffold_message.dart';
+import 'package:task_manager/data/service/network_caller.dart';
+import 'package:task_manager/data/utils/my_urls.dart';
 
-class ForgotPasswardEmailScreen extends StatefulWidget {
-  const ForgotPasswardEmailScreen({super.key});
+class ForgotPasswordEmailScreen extends StatefulWidget {
+  const ForgotPasswordEmailScreen({super.key});
 
   @override
-  State<ForgotPasswardEmailScreen> createState() =>
-      _ForgotPasswardEmailScreenState();
+  State<ForgotPasswordEmailScreen> createState() =>
+      _ForgotPasswordEmailScreenState();
 }
 
-class _ForgotPasswardEmailScreenState extends State<ForgotPasswardEmailScreen> {
+class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final bool isVerifyInProgress = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +36,25 @@ class _ForgotPasswardEmailScreenState extends State<ForgotPasswardEmailScreen> {
                 style: Theme.of(context).textTheme.labelMedium,
               ),
               SizedBox(height: 8),
-              TextFormField(decoration: InputDecoration(hintText: 'Email')),
+              TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                controller: _emailController,
+                decoration: InputDecoration(hintText: 'Email'),
+                validator: (String? value) {
+                  if (value!.isEmpty) {
+                    return "Enter email to forget your password";
+                  }
+                  return null;
+                },
+              ),
               SizedBox(height: 8),
-              FilledButton(
-                onPressed: _onTabSubmitButton,
-                child: Icon(Icons.arrow_circle_right_outlined),
+              Visibility(
+                visible: isVerifyInProgress == false,
+                replacement: CircularProgressIndicator(),
+                child: FilledButton(
+                  onPressed: _onTabSubmitButton,
+                  child: Icon(Icons.arrow_circle_right_outlined),
+                ),
               ),
               SizedBox(height: 24),
               RichText(
@@ -61,8 +81,24 @@ class _ForgotPasswardEmailScreenState extends State<ForgotPasswardEmailScreen> {
     );
   }
 
-  void _onTabSubmitButton() {
-    Navigator.pushNamed(context, '/verify-otp');
+  void _onTabSubmitButton() async {
+    isVerifyInProgress == true;
+    setState(() {});
+    final myEmail = _emailController.text.trim();
+    if (myEmail.isNotEmpty) {
+      NetworkResponse response = await NetworkCaller.getRequest(
+        MyUrls.verifyEmail(myEmail),
+      );
+
+      if (response.isSuccess) {
+        trueScaffoldMessage(context, "OTP sent successfully!");
+        Navigator.pushNamed(context, '/verify-otp');
+      } else {
+        falseScaffoldMessage(context, response.errorMessage);
+      }
+      isVerifyInProgress == false;
+      setState(() {});
+    }
   }
 
   void _onTapSignInButon() {
