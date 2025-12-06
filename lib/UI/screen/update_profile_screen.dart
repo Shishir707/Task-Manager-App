@@ -145,6 +145,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   void _onTapUpdateProfileButton() {
     if (_formKey.currentState!.validate()) {
       _updateProfile();
+      dispose();
     }
   }
 
@@ -180,5 +181,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     } else {
       falseScaffoldMessage(context, response.errorMessage);
     }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _firstController.dispose();
+    _lastController.dispose();
+    _mobileController.dispose();
+    _passController.dispose();
+    super.dispose();
   }
 }
