@@ -58,10 +58,10 @@ This app helps users organize tasks, track progress, manage daily activities, an
 ### 👤 User Profile Screens
 <div align="center">
 
-| Add New | Update Profile |
-|----------------|----------------|
-| <img src="assets/app_screenshot/updateProfile.png" width="200"> | <img src="assets/app_screenshot/addNew.png" width="200"> |
-| Add New Task | Update Profile |
+| Add New | Update Profile | Edit/Delete |
+|----------|-----------|------------| 
+| <img src="assets/app_screenshot/addNew.png" width="200"> | <img src="assets/app_screenshot/updateProfile.png" width="200"> | <img src="assets/app_screenshot/editDelete.png" width="200"> |
+| Add New Task | Update Profile | Edit/Delete Task | 
 
 </div>
 
