@@ -22,10 +22,10 @@ This app helps users organize tasks, track progress, manage daily activities, an
 ### 🌟 Authentication Screens
 <div align="center">
 
-| Splash | Login | OTP |
+| Splash | Login | Email |
 |-------|-------|------|
-| <img src="assets/app_screenshot/splash.png" width="200"> | <img src="assets/app_screenshot/login.png" width="200"> | <img src="assets/app_screenshot/otp.png" width="200"> |
-| Splash Screen | Login Screen | OTP Verification |
+| <img src="assets/app_screenshot/splash.png" width="200"> | <img src="assets/app_screenshot/login.png" width="200"> | <img src="assets/app_screenshot/email.png" width="200"> |
+| Splash Screen | Login Screen |Verify Email |
 
 </div>
 
@@ -34,10 +34,10 @@ This app helps users organize tasks, track progress, manage daily activities, an
 ### 🔧 Core App Screens
 <div align="center">
 
-| Add New | New | Email |
+| OTP  | Reset | New |
 |--------|------|--------|
-| <img src="assets/app_screenshot/addNew.png" width="200"> | <img src="assets/app_screenshot/new.png" width="200"> | <img src="assets/app_screenshot/email.png" width="200"> |
-| Add New Task | Create Task | Email Screen |
+| <img src="assets/app_screenshot/otp.png" width="200"> | <img src="assets/app_screenshot/reset.png" width="200"> | <img src="assets/app_screenshot/new.png" width="200"> |
+| Verify OTP | Reset Password | New Task |
 
 </div>
 
@@ -58,10 +58,10 @@ This app helps users organize tasks, track progress, manage daily activities, an
 ### 👤 User Profile Screens
 <div align="center">
 
-| Update Profile | Reset Password |
+| Add New | Update Profile |
 |----------------|----------------|
-| <img src="assets/app_screenshot/updateProfile.png" width="200"> | <img src="assets/app_screenshot/reset.png" width="200"> |
-| Update Profile | Reset Password |
+| <img src="assets/app_screenshot/updateProfile.png" width="200"> | <img src="assets/app_screenshot/addNew.png" width="200"> |
+| Add New Task | Update Profile |
 
 </div>
 
