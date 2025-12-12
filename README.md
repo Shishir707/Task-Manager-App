@@ -1,16 +1,86 @@
-# task_manager
+# 📌 Task Manager App
 
-A new Flutter project.
+A clean, modern, and efficient **Task Manager** built with Flutter.  
+This app helps users organize tasks, track progress, manage daily activities, and stay productive with a simple and intuitive UI.
 
-## Getting Started
+---
+
+## 🚀 Features
+
+- 🔐 **Secure Login & OTP Verification**  
+- ➕ **Add New Tasks Easily**  
+- 📊 **Track Task Progress**  
+- 📝 **Update Profile Information**  
+- 🔄 **Password Reset Option**  
+- 📨 **Email-based Account Actions**  
+- 📱 **Smooth UI & Seamless Navigation**
+
+---
+
+## 📸 App Screenshots
+
+### 🌟 Authentication Screens
+<div align="center">
+
+| Splash | Login | OTP |
+|-------|-------|------|
+| <img src="assets/app_screenshot/splash.png" width="200"> | <img src="assets/app_screenshot/login.png" width="200"> | <img src="assets/app_screenshot/otp.png" width="200"> |
+| Splash Screen | Login Screen | OTP Verification |
+
+</div>
+
+---
+
+### 🔧 Core App Screens
+<div align="center">
+
+| Add New | New | Email |
+|--------|------|--------|
+| <img src="assets/app_screenshot/addNew.png" width="200"> | <img src="assets/app_screenshot/new.png" width="200"> | <img src="assets/app_screenshot/email.png" width="200"> |
+| Add New Task | Create Task | Email Screen |
+
+</div>
+
+---
+
+### 📊 Task Status Screens
+<div align="center">
+
+| Progress | Complete | Cancelled |
+|----------|-----------|------------|
+| <img src="assets/app_screenshot/progress.png" width="200"> | <img src="assets/app_screenshot/complete.png" width="200"> | <img src="assets/app_screenshot/cancelled.png" width="200"> |
+| In Progress Tasks | Completed Tasks | Cancelled Tasks |
+
+</div>
+
+---
+
+### 👤 User Profile Screens
+<div align="center">
+
+| Update Profile | Reset Password |
+|----------------|----------------|
+| <img src="assets/app_screenshot/updateProfile.png" width="200"> | <img src="assets/app_screenshot/reset.png" width="200"> |
+| Update Profile | Reset Password |
+
+</div>
+
+---
+
+## 🛠 Getting Started
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## 🤝 Contributing
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Pull requests are welcome! For major changes, open an issue first to discuss what you'd like to change.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 📄 License
+
+This project is licensed under the **Owner**.
+
+---
+
+Made with ❤️ using Flutter.
