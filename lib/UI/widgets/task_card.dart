@@ -5,6 +5,7 @@ import 'package:task_manager/UI/widgets/scaffold_message.dart';
 import 'package:task_manager/data/models/task_model.dart';
 import 'package:task_manager/data/service/network_caller.dart';
 import 'package:task_manager/data/utils/my_urls.dart';
+import 'package:task_manager/provider/delete_provider.dart';
 import 'package:task_manager/provider/edit_provider.dart';
 
 class TaskCard extends StatefulWidget {
@@ -65,21 +66,26 @@ class _TaskCardState extends State<TaskCard> {
               ),
 
               Spacer(),
-              Visibility(
-                visible: isDeleteInProgress == false,
-                replacement: CenterCircularProgress(),
-                child: IconButton(
-                  onPressed: _onTapDeleteTask,
-                  icon: Icon(Icons.delete, color: Colors.red.shade300),
-                ),
+              Consumer<DeleteProvider>(
+                builder: (context, value, child) =>
+                    Visibility(
+                      visible: isDeleteInProgress == false,
+                      replacement: CenterCircularProgress(),
+                      child: IconButton(
+                        onPressed: _onTapDeleteTask,
+                        icon: Icon(Icons.delete, color: Colors.red.shade300),
+                      ),
+                    ),
               ),
-              Visibility(
-                visible: isLoading == false,
-                replacement: CenterCircularProgress(),
-                child: IconButton(
-                  onPressed: _onTapEditTask,
-                  icon: Icon(Icons.edit, color: Colors.blue.shade300),
-                ),
+              Consumer<EditProvider>(builder: (context, value, child) =>
+                  Visibility(
+                    visible: isLoading == false,
+                    replacement: CenterCircularProgress(),
+                    child: IconButton(
+                      onPressed: _onTapEditTask,
+                      icon: Icon(Icons.edit, color: Colors.blue.shade300),
+                    ),
+                  ),
               ),
             ],
           ),
@@ -89,23 +95,16 @@ class _TaskCardState extends State<TaskCard> {
   }
 
   void _onTapDeleteTask() async {
-    isDeleteInProgress = true;
-    setState(() {});
-
-    NetworkResponse response = await NetworkCaller.getRequest(
-      MyUrls.deleteTaskUrl(widget.taskModel.id),
+    NetworkResponse response = await context.read<DeleteProvider>().deleteTask(
+      id: widget.taskModel.id,
     );
 
     if (response.statusCode == 200) {
-      isDeleteInProgress = false;
-      setState(() {});
       trueScaffoldMessage(
         context,
         "${widget.taskModel.title} has been deleted successfully",
       );
     } else {
-      isDeleteInProgress = false;
-      setState(() {});
       falseScaffoldMessage(context, response.errorMessage);
     }
   }
@@ -113,42 +112,49 @@ class _TaskCardState extends State<TaskCard> {
   void _onTapEditTask() {
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        title: Text('Change Status'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: Text('New'),
-              trailing: isSelectedState('New') ? Icon(Icons.done) : null,
-              onTap: () {
-                onTapChangeStatus('New');
-              },
+      builder: (_) =>
+          AlertDialog(
+            title: Text('Change Status'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  title: Text('New'),
+                  trailing: isSelectedState('New') ? Icon(Icons.done) : null,
+                  onTap: () {
+                    onTapChangeStatus('New');
+                  },
+                ),
+                ListTile(
+                  title: Text('Progress'),
+                  trailing: isSelectedState('Progress')
+                      ? Icon(Icons.done)
+                      : null,
+                  onTap: () {
+                    onTapChangeStatus('Progress');
+                  },
+                ),
+                ListTile(
+                  title: Text('Cancelled'),
+                  trailing: isSelectedState('Cancelled')
+                      ? Icon(Icons.done)
+                      : null,
+                  onTap: () {
+                    onTapChangeStatus('Cancelled');
+                  },
+                ),
+                ListTile(
+                  title: Text('Completed'),
+                  trailing: isSelectedState('Completed')
+                      ? Icon(Icons.done)
+                      : null,
+                  onTap: () {
+                    onTapChangeStatus('Completed');
+                  },
+                ),
+              ],
             ),
-            ListTile(
-              title: Text('Progress'),
-              trailing: isSelectedState('Progress') ? Icon(Icons.done) : null,
-              onTap: () {
-                onTapChangeStatus('Progress');
-              },
-            ),
-            ListTile(
-              title: Text('Cancelled'),
-              trailing: isSelectedState('Cancelled') ? Icon(Icons.done) : null,
-              onTap: () {
-                onTapChangeStatus('Cancelled');
-              },
-            ),
-            ListTile(
-              title: Text('Completed'),
-              trailing: isSelectedState('Completed') ? Icon(Icons.done) : null,
-              onTap: () {
-                onTapChangeStatus('Completed');
-              },
-            ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
