@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:task_manager/UI/widgets/scaffold_message.dart';
 import 'package:task_manager/UI/widgets/task_card.dart';
-import 'package:task_manager/data/models/task_model.dart';
-import 'package:task_manager/data/service/network_caller.dart';
-import 'package:task_manager/data/utils/my_urls.dart';
-
+import 'package:task_manager/provider/task_count_provider.dart';
 import '../../data/models/task_count_model.dart';
 import '../../provider/new_task_provider.dart';
 import '../widgets/center_progress.dart';
@@ -18,17 +14,15 @@ class NewTaskScreenList extends StatefulWidget {
 }
 
 class _NewTaskScreenListState extends State<NewTaskScreenList> {
-  List<StatusCountModel> _totalTaskCount = [];
-
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
       if (mounted) {
         context.read<NewTaskProvider>().getNewTask();
+        context.read<TaskCountProvider>().getCount();
       }
     });
-    getSumTask();
   }
 
   @override
@@ -38,7 +32,7 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
         body: RefreshIndicator(
           onRefresh: () async {
             provider.getNewTask();
-            getSumTask();
+            context.read<TaskCountProvider>().getCount();
           },
           child: provider.newTask.isNotEmpty
               ? ListView(
@@ -52,7 +46,11 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
                       child: Column(
                         spacing: 8,
                         children: [
-                          NewSummaryList(listCount: _totalTaskCount),
+                          NewSummaryList(
+                            listCount: context
+                                .watch<TaskCountProvider>()
+                                .sumTask,
+                          ),
                           ListView.separated(
                             itemCount: provider.newTask.length,
                             primary: false,
@@ -89,25 +87,6 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
 
   void _onTapAddNewTaskButton() {
     Navigator.pushNamed(context, "/add-new");
-  }
-
-  Future<void> getSumTask() async {
-    setState(() {});
-    NetworkResponse response = await NetworkCaller.getRequest(
-      MyUrls.totalTaskUrl,
-    );
-
-    if (response.isSuccess) {
-      List<StatusCountModel> countList = [];
-      for (Map<String, dynamic> jsonData in response.body['data']) {
-        countList.add(StatusCountModel.fromJson(jsonData));
-      }
-      _totalTaskCount = countList;
-    } else {
-      falseScaffoldMessage(context, response.errorMessage);
-    }
-
-    setState(() {});
   }
 }
 

@@ -10,6 +10,7 @@ import 'package:task_manager/provider/edit_provider.dart';
 import 'package:task_manager/provider/new_task_provider.dart';
 import 'package:task_manager/provider/progress_provider.dart';
 import 'package:task_manager/provider/sign_in_provider.dart';
+import 'package:task_manager/provider/task_count_provider.dart';
 import 'UI/screen/main_bottom_nav_holder_screen.dart';
 import 'UI/screen/otp_verification_screen.dart';
 import 'UI/screen/forgot_password_email_screen.dart';
@@ -34,6 +35,7 @@ class TaskManagerApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CompleteTaskProvider()),
         ChangeNotifierProvider(create: (context) => EditProvider()),
         ChangeNotifierProvider(create: (context) => DeleteProvider()),
+        ChangeNotifierProvider(create: (context) => TaskCountProvider()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
