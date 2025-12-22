@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:task_manager/UI/screen/add_task_screen.dart';
 import 'package:task_manager/UI/screen/sign_in_screen.dart';
 import 'package:task_manager/UI/screen/sign_up_screen.dart';
+import 'package:task_manager/provider/new_task_provider.dart';
 import 'package:task_manager/provider/sign_in_provider.dart';
 import 'UI/screen/main_bottom_nav_holder_screen.dart';
 import 'UI/screen/otp_verification_screen.dart';
@@ -22,6 +23,7 @@ class TaskManagerApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SignInProvider()),
+        ChangeNotifierProvider(create: (context) => NewTaskProvider()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

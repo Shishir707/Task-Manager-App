@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/UI/widgets/scaffold_message.dart';
 import 'package:task_manager/UI/widgets/task_card.dart';
 import 'package:task_manager/data/models/task_model.dart';
@@ -6,6 +7,7 @@ import 'package:task_manager/data/service/network_caller.dart';
 import 'package:task_manager/data/utils/my_urls.dart';
 
 import '../../data/models/task_count_model.dart';
+import '../../provider/new_task_provider.dart';
 import '../widgets/center_progress.dart';
 
 class NewTaskScreenList extends StatefulWidget {
@@ -16,67 +18,66 @@ class NewTaskScreenList extends StatefulWidget {
 }
 
 class _NewTaskScreenListState extends State<NewTaskScreenList> {
-  bool isLoading = false;
-  List<TaskModel> _newTaskList = [];
   List<StatusCountModel> _totalTaskCount = [];
 
   @override
   void initState() {
     super.initState();
-    getNewTask();
+    context.read<NewTaskProvider>().getNewTask();
     getSumTask();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () async {
-          getNewTask();
-          getSumTask();
-        },
-        child: _newTaskList.isNotEmpty
-            ? ListView(
-                children: [
-                  Visibility(
-                    visible: isLoading == false,
-                    replacement: SizedBox(
-                      height: 350,
-                      child: CenterCircularProgress(),
-                    ),
-                    child: Column(
-                      spacing: 8,
-                      children: [
-                        NewSummaryList(listCount: _totalTaskCount),
-                        ListView.separated(
-                          itemCount: _newTaskList.length,
-                          primary: false,
-                          shrinkWrap: true,
-                          itemBuilder: (_, index) =>
-                              TaskCard(taskModel: _newTaskList[index]),
-                          separatorBuilder: (_, index) => SizedBox(height: 8),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            : Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+    return Consumer<NewTaskProvider>(
+      builder: (context, provider, child) => Scaffold(
+        body: RefreshIndicator(
+          onRefresh: () async {
+            getSumTask();
+          },
+          child: provider.newTask.isNotEmpty
+              ? ListView(
                   children: [
-                    Image.asset('assets/images/noTask.png'),
-                    Text(
-                      "No New tasks found",
-                      style: Theme.of(context).textTheme.titleMedium,
+                    Visibility(
+                      visible: provider.isNewLoading == false,
+                      replacement: SizedBox(
+                        height: 350,
+                        child: CenterCircularProgress(),
+                      ),
+                      child: Column(
+                        spacing: 8,
+                        children: [
+                          NewSummaryList(listCount: _totalTaskCount),
+                          ListView.separated(
+                            itemCount: provider.newTask.length,
+                            primary: false,
+                            shrinkWrap: true,
+                            itemBuilder: (_, index) =>
+                                TaskCard(taskModel: provider.newTask[index]),
+                            separatorBuilder: (_, index) => SizedBox(height: 8),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
+                )
+              : Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/noTask.png'),
+                      Text(
+                        "No New tasks found",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _onTapAddNewTaskButton,
-        child: Icon(Icons.add),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _onTapAddNewTaskButton,
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }
@@ -85,29 +86,7 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
     Navigator.pushNamed(context, "/add-new");
   }
 
-  Future<void> getNewTask() async {
-    isLoading = true;
-    setState(() {});
-    NetworkResponse response = await NetworkCaller.getRequest(
-      MyUrls.newTasksUrl,
-    );
-
-    if (response.isSuccess) {
-      List<TaskModel> newList = [];
-      for (Map<String, dynamic> jsonData in response.body['data']) {
-        newList.add(TaskModel.fromJson(jsonData));
-      }
-      _newTaskList = newList;
-    } else {
-      falseScaffoldMessage(context, response.errorMessage);
-    }
-
-    isLoading = false;
-    setState(() {});
-  }
-
   Future<void> getSumTask() async {
-    isLoading = true;
     setState(() {});
     NetworkResponse response = await NetworkCaller.getRequest(
       MyUrls.totalTaskUrl,
@@ -123,7 +102,6 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
       falseScaffoldMessage(context, response.errorMessage);
     }
 
-    isLoading = false;
     setState(() {});
   }
 }
