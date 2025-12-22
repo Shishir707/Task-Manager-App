@@ -2,12 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:task_manager/UI/widgets/center_progress.dart';
 import 'package:task_manager/UI/widgets/task_card.dart';
-import 'package:task_manager/data/models/task_model.dart';
 import 'package:task_manager/provider/cancelled_provider.dart';
-
-import '../../data/service/network_caller.dart';
-import '../../data/utils/my_urls.dart';
-import '../widgets/scaffold_message.dart';
 
 class CancelledTaskList extends StatefulWidget {
   const CancelledTaskList({super.key});
