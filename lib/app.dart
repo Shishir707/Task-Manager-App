@@ -6,6 +6,7 @@ import 'package:task_manager/UI/screen/sign_in_screen.dart';
 import 'package:task_manager/UI/screen/sign_up_screen.dart';
 import 'package:task_manager/provider/cancelled_provider.dart';
 import 'package:task_manager/provider/completed_provider.dart';
+import 'package:task_manager/provider/edit_provider.dart';
 import 'package:task_manager/provider/new_task_provider.dart';
 import 'package:task_manager/provider/progress_provider.dart';
 import 'package:task_manager/provider/sign_in_provider.dart';
@@ -31,6 +32,7 @@ class TaskManagerApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProgressProvider()),
         ChangeNotifierProvider(create: (context) => CancelledTaskProvider()),
         ChangeNotifierProvider(create: (context) => CompleteTaskProvider()),
+        ChangeNotifierProvider(create: (context) => EditProvider()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

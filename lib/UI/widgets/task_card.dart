@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/UI/widgets/center_progress.dart';
 import 'package:task_manager/UI/widgets/scaffold_message.dart';
 import 'package:task_manager/data/models/task_model.dart';
 import 'package:task_manager/data/service/network_caller.dart';
 import 'package:task_manager/data/utils/my_urls.dart';
+import 'package:task_manager/provider/edit_provider.dart';
 
 class TaskCard extends StatefulWidget {
   const TaskCard({super.key, required this.taskModel});
@@ -151,19 +153,18 @@ class _TaskCardState extends State<TaskCard> {
   }
 
   void _updateStatus(String status) async {
-    isLoading = true;
-    setState(() {});
-
-    NetworkResponse response = await NetworkCaller.getRequest(
-      MyUrls.updateTaskUrl(widget.taskModel.id, status),
+    NetworkResponse response = await context.read<EditProvider>().changeStatus(
+      id: widget.taskModel.id,
+      status: status,
     );
 
-    if (response.statusCode == 200) {
-      isLoading = false;
-      setState(() {});
+    if (response.isSuccess) {
+      Navigator.pop(context);
+      trueScaffoldMessage(
+        context,
+        "Successfully changed status ${widget.taskModel.status} to $status",
+      );
     } else {
-      isLoading = false;
-      setState(() {});
       falseScaffoldMessage(context, response.errorMessage);
     }
   }
@@ -175,11 +176,6 @@ class _TaskCardState extends State<TaskCard> {
   void onTapChangeStatus(String status) {
     if (isSelectedState(status)) return;
     _updateStatus(status);
-    Navigator.pop(context);
-    trueScaffoldMessage(
-      context,
-      "Successfully changed status ${widget.taskModel.status} to $status",
-    );
   }
 
   Color setStatusColor(String status) {
