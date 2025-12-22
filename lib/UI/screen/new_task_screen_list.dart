@@ -23,7 +23,11 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
   @override
   void initState() {
     super.initState();
-    context.read<NewTaskProvider>().getNewTask();
+    Future.microtask(() {
+      if (mounted) {
+        context.read<NewTaskProvider>().getNewTask();
+      }
+    });
     getSumTask();
   }
 
@@ -33,6 +37,7 @@ class _NewTaskScreenListState extends State<NewTaskScreenList> {
       builder: (context, provider, child) => Scaffold(
         body: RefreshIndicator(
           onRefresh: () async {
+            provider.getNewTask();
             getSumTask();
           },
           child: provider.newTask.isNotEmpty
