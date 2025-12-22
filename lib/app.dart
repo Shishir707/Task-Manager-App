@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/UI/screen/add_task_screen.dart';
 import 'package:task_manager/UI/screen/sign_in_screen.dart';
 import 'package:task_manager/UI/screen/sign_up_screen.dart';
+import 'package:task_manager/provider/sign_in_provider.dart';
 import 'UI/screen/main_bottom_nav_holder_screen.dart';
 import 'UI/screen/otp_verification_screen.dart';
 import 'UI/screen/forgot_password_email_screen.dart';
@@ -17,66 +19,74 @@ class TaskManagerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      theme: ThemeData(
-        colorSchemeSeed: Colors.green,
-        inputDecorationTheme: InputDecorationTheme(
-          fillColor: Colors.white,
-          filled: true,
-          hintStyle: TextStyle(fontWeight: FontWeight.w400, color: Colors.grey),
-          border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-        filledButtonTheme: FilledButtonThemeData(
-          style: FilledButton.styleFrom(
-            fixedSize: Size.fromWidth(double.maxFinite),
-            padding: EdgeInsets.symmetric(vertical: 12),
-            shape: RoundedRectangleBorder(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SignInProvider()),
+      ],
+      child: MaterialApp(
+        navigatorKey: navigatorKey,
+        theme: ThemeData(
+          colorSchemeSeed: Colors.green,
+          inputDecorationTheme: InputDecorationTheme(
+            fillColor: Colors.white,
+            filled: true,
+            hintStyle: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: Colors.grey,
+            ),
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(8),
             ),
-            backgroundColor: Colors.green,
-            foregroundColor: Colors.white,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
-        ),
-        scaffoldBackgroundColor: Colors.green.shade50,
+          filledButtonTheme: FilledButtonThemeData(
+            style: FilledButton.styleFrom(
+              fixedSize: Size.fromWidth(double.maxFinite),
+              padding: EdgeInsets.symmetric(vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              backgroundColor: Colors.green,
+              foregroundColor: Colors.white,
+            ),
+          ),
+          scaffoldBackgroundColor: Colors.green.shade50,
 
-        textTheme: TextTheme(
-          titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-          labelMedium: TextStyle(
-            fontSize: 15,
-            color: Colors.grey,
-            fontWeight: FontWeight.w400,
+          textTheme: TextTheme(
+            titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+            labelMedium: TextStyle(
+              fontSize: 15,
+              color: Colors.grey,
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ),
+        debugShowCheckedModeBanner: false,
+        routes: <String, WidgetBuilder>{
+          '/': (_) => SplashScreen(),
+          '/sign-in': (_) => SignInScreen(),
+          '/sign-up': (_) => SignUpScreen(),
+          '/forgot-email': (_) => ForgotPasswordEmailScreen(),
+          '/verify-otp': (_) => VerifyOtpScreen(),
+          '/reset-password': (_) => ResetPasswordScreen(),
+          '/main-bottom-nav-screen': (_) => MainBottomNavHolderScreen(),
+          '/add-new': (_) => AddTaskScreen(),
+          '/update-profile': (_) => UpdateProfileScreen(),
+        },
+        initialRoute: '/',
       ),
-      debugShowCheckedModeBanner: false,
-      routes: <String, WidgetBuilder>{
-        '/': (_) => SplashScreen(),
-        '/sign-in': (_) => SignInScreen(),
-        '/sign-up': (_) => SignUpScreen(),
-        '/forgot-email': (_) => ForgotPasswordEmailScreen(),
-        '/verify-otp': (_) => VerifyOtpScreen(),
-        '/reset-password': (_) => ResetPasswordScreen(),
-        '/main-bottom-nav-screen': (_) => MainBottomNavHolderScreen(),
-        '/add-new': (_) => AddTaskScreen(),
-        '/update-profile': (_) => UpdateProfileScreen(),
-      },
-      initialRoute: '/',
     );
   }
 }

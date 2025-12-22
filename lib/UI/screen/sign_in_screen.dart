@@ -1,12 +1,11 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:task_manager/UI/controller/auth_controller.dart';
-import 'package:task_manager/data/models/user_model.dart';
+import 'package:provider/provider.dart';
 import 'package:task_manager/UI/widgets/backgroundScreen.dart';
 import 'package:task_manager/UI/widgets/scaffold_message.dart';
 import 'package:task_manager/data/service/network_caller.dart';
-import 'package:task_manager/data/utils/my_urls.dart';
+import 'package:task_manager/provider/sign_in_provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -18,8 +17,6 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  bool loader = false;
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +59,16 @@ class _SignInScreenState extends State<SignInScreen> {
                 },
               ),
               SizedBox(height: 8),
-              Visibility(
-                visible: loader == false,
-                replacement: Center(
-                  child: CircularProgressIndicator(color: Colors.green),
-                ),
-                child: FilledButton(
-                  onPressed: _onTabSignInButton,
-                  child: Icon(Icons.arrow_circle_right_outlined),
+              Consumer<SignInProvider>(
+                builder: (context, provider, child) => Visibility(
+                  visible: provider.isLoginLoading == false,
+                  replacement: Center(
+                    child: CircularProgressIndicator(color: Colors.green),
+                  ),
+                  child: FilledButton(
+                    onPressed: _onTabSignInButton,
+                    child: Icon(Icons.arrow_circle_right_outlined),
+                  ),
                 ),
               ),
               SizedBox(height: 24),
@@ -122,31 +121,24 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Future<void> _signIn() async {
-    setState(() {});
-
-    loader = true;
-
     Map<String, dynamic> requestBody = {
       "email": _emailController.text.trim(),
       "password": _passwordController.text,
     };
 
-    NetworkResponse response = await NetworkCaller.postRequest(
-      MyUrls.login,
-      body: requestBody,
+    NetworkResponse response = await context.read<SignInProvider>().signIn(
+      requestBody: requestBody,
     );
 
-    loader = false;
-
     if (response.isSuccess) {
-      UserModel userData = UserModel.fromJson(response.body['data']);
-      String accessToken = response.body['token'];
-      await AuthController.saveLoginData(accessToken, userData);
-      trueScaffoldMessage(context, "Login in successfully✔️");
-      Navigator.pushReplacementNamed(context, "/main-bottom-nav-screen");
+      trueScaffoldMessage(context, "Login Successful!");
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        "/main-bottom-nav-screen",
+        (route) => false,
+      );
     } else {
-      falseScaffoldMessage(context, "Incorrect email or password!. Try again");
+      falseScaffoldMessage(context, response.errorMessage);
     }
-    setState(() {});
   }
 }
